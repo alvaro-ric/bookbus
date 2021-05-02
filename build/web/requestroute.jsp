@@ -35,7 +35,7 @@
             List<Route> routes = routeDao.findAll(new Route());
         %>
         <script
-            src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+            src="./assets/alpine.js"
             defer
         ></script>
 
@@ -102,12 +102,12 @@
                             <div x-show="open" class="bg-gray-700">
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#"  onclick="openMenu(event, 'view-routes')"
+                                    href="addaccount.jsp"  onclick="openMenu(event, 'view-routes')"
                                     >Add account</a
                                 >
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#"
+                                    href="accountspercompany.jsp"
                                     >Manage Accounts</a
                                 >
                             </div>
@@ -254,7 +254,7 @@
                                 >
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="alljourneys.jsp"
+                                    href="journeyspercompany.jsp"
                                     >All Journey</a
                                 >
 
@@ -316,8 +316,68 @@
                             <div x-show="open" class="bg-gray-700">
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#"
+                                    href="ticketspercompany.jsp"
                                     >All Tickets</a
+                                >
+                            </div>
+                        </div>
+                        <div x-data="{ open: false }">
+                            <button
+                                @click="open = !open"
+                                class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none"
+                                >
+                                <span class="flex items-center">
+                                    <svg
+                                        class="h-5 w-5"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                    <path
+                                        d="M15 5V7M15 11V13M15 17V19M5 5C3.89543 5 3 5.89543 3 7V10C4.10457 10 5 10.8954 5 12C5 13.1046 4.10457 14 3 14V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V14C19.8954 14 19 13.1046 19 12C19 10.8954 19.8954 10 21 10V7C21 5.89543 20.1046 5 19 5H5Z"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        ></path>
+                                    </svg>
+
+                                    <span class="mx-4 font-medium">Settings</span>
+                                </span>
+
+                                <span>
+                                    <svg
+                                        class="h-4 w-4"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                    <path
+                                        x-show="! open"
+                                        d="M9 5L16 12L9 19"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        style="display: none"
+                                        ></path>
+                                    <path
+                                        x-show="open"
+                                        d="M19 9L12 16L5 9"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        ></path>
+                                    </svg>
+                                </span>
+                            </button>
+
+                            <div x-show="open" class="bg-gray-700">
+                                <a
+                                    class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
+                                    href="CompanyControl?action=logout"
+                                    >Logout</a
                                 >
                             </div>
                         </div>
@@ -331,7 +391,7 @@
                             <div class="flex justify-between items-center">
                                 <img
                                     class="h-6 w-6 rounded-full mr-3 object-cover"
-                                    src="https://lh3.googleusercontent.com/a-/AOh14Gi0DgItGDTATTFV6lPiVrqtja6RZ_qrY91zg42o-g"
+                                    src="./assets/img/service/avatar.jpg"
                                     alt="avatar"
                                     />
                                 <div class="flex flex-col justify-between">

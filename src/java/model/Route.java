@@ -8,6 +8,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,6 +33,8 @@ public class Route {
     private List<CompanyRoute> companies = new ArrayList<>();
     @OneToMany(mappedBy = "route")
     private List<Journey> journeys = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     public long getId() {
         return id;
@@ -70,6 +74,14 @@ public class Route {
 
     public void setJourneys(List<Journey> journeys) {
         this.journeys = journeys;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
     
 }

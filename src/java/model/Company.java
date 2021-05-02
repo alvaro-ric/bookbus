@@ -7,17 +7,15 @@ package model;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 /**
@@ -40,6 +38,12 @@ public class Company {
     private Timestamp createdOn;
     @OneToMany(mappedBy = "company")
     private List<ManagerAccount> managerAccounts = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private CompanyStatus companyStatus;
+    @OneToMany(mappedBy = "company")
+    private List<Ticket> tickets = new ArrayList<>();
+    @OneToOne
+    private Manager manager;
 
     public long getId() {
         return id;
@@ -96,8 +100,30 @@ public class Company {
     public void setManagerAccounts(List<ManagerAccount> managerAccounts) {
         this.managerAccounts = managerAccounts;
     }
-    
-    
-    
 
+    public CompanyStatus getCompanyStatus() {
+        return companyStatus;
+    }
+
+    public void setCompanyStatus(CompanyStatus companyStatus) {
+        this.companyStatus = companyStatus;
+    }
+
+    public Manager getManager() {
+        return manager;
+    }
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
+    }
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+    
+    
 }

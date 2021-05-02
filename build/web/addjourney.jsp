@@ -4,6 +4,9 @@
     Author     : Philip
 --%>
 
+<%@page import="model.ManagerAccount"%>
+<%@page import="model.CompanyRoute"%>
+<%@page import="dao.RouteDao"%>
 <%@page import="model.Account"%>
 <%@page import="model.Route"%>
 <%@page import="java.util.List"%>
@@ -24,19 +27,21 @@
         <%
             response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 
+            List<CompanyRoute> routelist = null;
             if (session.getAttribute("user") == null) {
                 response.sendRedirect("login.jsp?trigger=dashboard");
             } else {
-                Account account = (Account) session.getAttribute("user");
+                ManagerAccount account = (ManagerAccount) session.getAttribute("user");
                 request.setAttribute("email", account.getEmail());
                 request.setAttribute("role", account.getAccountRole());
-
+                RouteDao routeDao = new RouteDao();
+                routelist = routeDao.approvedRoutes(account.getCompany().getId());
             }
             //            request.setAttribute("genderlist", ds.getGenderList());
         %>
 
         <script
-            src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+            src="./assets/alpine.js"
             defer
         ></script>
 
@@ -103,12 +108,12 @@
                             <div x-show="open" class="bg-gray-700">
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#"  onclick="openMenu(event, 'view-routes')"
+                                    href="addaccount.jsp"  onclick="openMenu(event, 'view-routes')"
                                     >Add account</a
                                 >
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#"
+                                    href="accountspercompany.jsp"
                                     >Manage Accounts</a
                                 >
                             </div>
@@ -181,7 +186,7 @@
                                 >
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="routes.jsp"
+                                    href="routespercompany.jsp"
                                     >All Routes</a
                                 >
 
@@ -255,7 +260,7 @@
                                 >
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="alljourneys.jsp"
+                                    href="journeyspercompany.jsp"
                                     >All Journey</a
                                 >
 
@@ -317,8 +322,68 @@
                             <div x-show="open" class="bg-gray-700">
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#"
+                                    href="ticketspercompany.jsp"
                                     >All Tickets</a
+                                >
+                            </div>
+                        </div>
+                        <div x-data="{ open: false }">
+                            <button
+                                @click="open = !open"
+                                class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none"
+                                >
+                                <span class="flex items-center">
+                                    <svg
+                                        class="h-5 w-5"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                    <path
+                                        d="M15 5V7M15 11V13M15 17V19M5 5C3.89543 5 3 5.89543 3 7V10C4.10457 10 5 10.8954 5 12C5 13.1046 4.10457 14 3 14V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V14C19.8954 14 19 13.1046 19 12C19 10.8954 19.8954 10 21 10V7C21 5.89543 20.1046 5 19 5H5Z"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        ></path>
+                                    </svg>
+
+                                    <span class="mx-4 font-medium">Settings</span>
+                                </span>
+
+                                <span>
+                                    <svg
+                                        class="h-4 w-4"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                    <path
+                                        x-show="! open"
+                                        d="M9 5L16 12L9 19"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        style="display: none"
+                                        ></path>
+                                    <path
+                                        x-show="open"
+                                        d="M19 9L12 16L5 9"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        ></path>
+                                    </svg>
+                                </span>
+                            </button>
+
+                            <div x-show="open" class="bg-gray-700">
+                                <a
+                                    class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
+                                    href="CompanyControl?action=logout"
+                                    >Logout</a
                                 >
                             </div>
                         </div>
@@ -326,15 +391,20 @@
 
                     <div class="absolute bottom-0 my-8">
                         <a
-                            class="flex items-center py-2 px-8 text-gray-100 hover:text-gray-200"
+                            class="flex items-center py-2 px-8 text-gray-300 mx-1 rounded-lg bg-gray-600 hover:text-gray-200"
                             href="#"
                             >
-                            <img
-                                class="h-6 w-6 rounded-full mr-3 object-cover"
-                                src="https://lh3.googleusercontent.com/a-/AOh14Gi0DgItGDTATTFV6lPiVrqtja6RZ_qrY91zg42o-g"
-                                alt="avatar"
-                                />
-                            <span>Company</span>
+                            <div class="flex justify-between items-center">
+                                <img
+                                    class="h-6 w-6 rounded-full mr-3 object-cover"
+                                    src="./assets/img/service/avatar.jpg"
+                                    alt="avatar"
+                                    />
+                                <div class="flex flex-col justify-between">
+                                    <div class="text-sm font-thin">${email}</div>
+                                    <div class="text-xs">${role}</div>
+                                </div>
+                            </div>
                         </a>
                     </div>
                 </div>
@@ -344,9 +414,33 @@
 
         <div class="w-full flex flex-col items-center">
 
+            <%                if (request.getAttribute("message") != null) {
+                    String message = (String) request.getAttribute("message");
+            %>
+            <div class="container px-4 py-1" id="alertbox">
+                <div class="container bg-blue-500 flex items-center text-white text-sm font-bold px-4 py-3 relative"
+                     role="alert">
+                    <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path
+                        d="M12.432 0c1.34 0 2.01.912 2.01 1.957 0 1.305-1.164 2.512-2.679 2.512-1.269 0-2.009-.75-1.974-1.99C9.789 1.436 10.67 0 12.432 0zM8.309 20c-1.058 0-1.833-.652-1.093-3.524l1.214-5.092c.211-.814.246-1.141 0-1.141-.317 0-1.689.562-2.502 1.117l-.528-.88c2.572-2.186 5.531-3.467 6.801-3.467 1.057 0 1.233 1.273.705 3.23l-1.391 5.352c-.246.945-.141 1.271.106 1.271.317 0 1.357-.392 2.379-1.207l.6.814C12.098 19.02 9.365 20 8.309 20z" />
+                    </svg>
+                    <p><%=message%></p>
+
+                    <span class="absolute top-0 bottom-0 right-0 px-4 py-3 closealertbutton">
+                        <svg class="fill-current h-6 w-6 text-white" role="button" xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 20 20">
+                        <title>Close</title>
+                        <path
+                            d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+            <%}%>
             <div class="">
 
-                <form action="#" method="POST" class="block">
+
+                <form action="JourneyControl" method="POST" class="block">
 
                     <div class="shadow-lg overflow-hidden sm:rounded-md">
 
@@ -354,48 +448,50 @@
                             <h2 class="py-6 text-blue-400 font-bold text-center">Add Journey</h2>
                             <div class="grid grid-cols-6 gap-6">
                                 <div class="col-span-6 sm:col-span-6">
-                                    <label for="country" class="block text-sm font-medium text-gray-700">Country / Region</label>
-                                    <select id="country" name="country" autocomplete="country" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                        <option>United States</option>
-                                        <option>Canada</option>
-                                        <option>Mexico</option>
+                                    <label for="route" class="block text-sm font-medium text-gray-700">Route</label>
+                                    <select id="route" name="route" autocomplete="route" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                        <%
+                                            for (CompanyRoute route : routelist) {
+                                        %>
+                                        <option value="<%=route.getRoute().getId()%>"><%=route.getRoute().getSource()%> to <%=route.getRoute().getDestination()%></option>
+                                        <%}%>
                                     </select>
                                 </div>
                                 <div class="col-span-6 sm:col-span-3">
-                                    <label for="first_name" class="block text-sm font-medium text-gray-700">Date</label>
-                                    <input type="date" name="first_name" id="first_name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <label for="departuredate" class="block text-sm font-medium text-gray-700">Date</label>
+                                    <input type="date" name="departuredate" id="departuredate"class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
 
                                 <div class="col-span-6 sm:col-span-3">
-                                    <label for="last_name" class="block text-sm font-medium text-gray-700">Time</label>
-                                    <input type="time" name="last_name" id="last_name" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <label for="departuretime" class="block text-sm font-medium text-gray-700">Time</label>
+                                    <input type="time" name="departuretime" id="departuretime" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
 
                                 <div class="col-span-6 sm:col-span-6 lg:col-span-2">
-                                    <label for="city" class="block text-sm font-medium text-gray-700">Plate No:</label>
-                                    <input type="text" name="city" id="city" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <label for="plateno" class="block text-sm font-medium text-gray-700">Plate No:</label>
+                                    <input type="text" name="plateno" id="plateno" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
 
                                 <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                                    <label for="state" class="block text-sm font-medium text-gray-700">Seats</label>
-                                    <input type="text" name="state" id="state" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <label for="seats" class="block text-sm font-medium text-gray-700">Seats</label>
+                                    <input type="number" name="seats" id="seats" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
 
                                 <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                                    <label for="postal_code" class="block text-sm font-medium text-gray-700">Price</label>
-                                    <input type="text" name="postal_code" id="postal_code" autocomplete="postal-code" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                                    <input type="number" name="price" id="price" autocomplete="" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
 
                                 <div class="col-span-6 sm:col-span-6">
                                     <label for="country" class="block text-sm font-medium text-gray-700">Journey Status</label>
-                                    <select id="country" name="country" autocomplete="country" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                        <option>United States</option>
-                                        <option>Canada</option>
-                                        <option>Mexico</option>
+                                    <select id="journeystatus" name="journeystatus" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                        <option value="BOOKING">Booking</option>
+                                        <option value="COMPLETED">Completed</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
+                        <input type="text" name="action" hidden="" value="addjourney">
                         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
                             <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 Save
@@ -405,8 +501,33 @@
                 </form>
             </div>
         </div>
+        <input type="hidden" id="refreshed" value="no">
         <!-- </div> -->
 
+        <script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+        <script>
+    $(".closealertbutton").click(function (e) {
+
+        pid = $(this).parent().parent().hide(500)
+        console.log(pid)
+    })
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+//    onload = function () {
+//        var e = document.getElementById("refreshed");
+//        if (e.value == "no")
+//            e.value = "yes";
+//        else {
+//            e.value = "no";
+//            location.reload();
+//        }
+//    }
+</script>
     </body>
 </html>
 

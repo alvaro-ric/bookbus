@@ -31,6 +31,8 @@ public class Ticket {
     private double amount;
     private Date BoughtOn;
     private TicketStatus ticketStatus;
+    @ManyToOne
+    private Company company;
 
     public Long getId() {
         return id;
@@ -78,6 +80,14 @@ public class Ticket {
 
     public void setTicketStatus(TicketStatus ticketStatus) {
         this.ticketStatus = ticketStatus;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
     
     

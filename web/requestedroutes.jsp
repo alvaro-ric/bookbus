@@ -1,13 +1,13 @@
 <%-- 
-    Document   : companyroutes
-    Created on : Apr 22, 2021, 6:16:43 AM
+    Document   : requestedroutes
+    Created on : May 1, 2021, 6:50:48 AM
     Author     : Philip
 --%>
 
-<%@page import="model.Route"%>
+<%@page import="dao.RouteDao"%>
+<%@page import="model.CompanyRoute"%>
 <%@page import="java.util.List"%>
-<%@page import="dao.GeneralDao"%>
-<%@page import="model.Company"%>
+<%@page import="model.AdminAccount"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,11 +19,27 @@
     </head>
     <body class="h-screen overflow-hidden flex items-center justify-start" style="background: #edf2f7">
         <%
-            GeneralDao<Route> routeDao = new GeneralDao<>();
-            List<Route> routes = routeDao.findAll(new Route());
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+
+            if (session.getAttribute("user") == null) {
+                response.sendRedirect("adminlogin.jsp?trigger=admin");
+            } else {
+                AdminAccount account = (AdminAccount) session.getAttribute("user");
+                if (account.getAccountRole().toString().equals("SUPER_ADMIN") || account.getAccountRole().toString().equals("ADMIN")) {
+                    request.setAttribute("email", account.getEmail());
+                    request.setAttribute("role", account.getAccountRole());
+                } else {
+                    request.setAttribute("message", "you do not have access to this route");
+                    request.getRequestDispatcher("adminlogin.jsp").forward(request, response);
+                }
+            }
+            //            request.setAttribute("genderlist", ds.getGenderList());
+            RouteDao routeDao = new RouteDao();
+            List<CompanyRoute> routes = routeDao.getRequestedRoutes();
         %>
+
         <script
-            src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+            src="./assets/alpine.js"
             defer
         ></script>
 
@@ -90,12 +106,12 @@
                             <div x-show="open" class="bg-gray-700">
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#"  onclick="openMenu(event, 'view-routes')"
+                                    href="addaccount.jsp"  onclick="openMenu(event, 'view-routes')"
                                     >Add account</a
                                 >
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#"
+                                    href="accountspercompany.jsp"
                                     >Manage Accounts</a
                                 >
                             </div>
@@ -163,8 +179,8 @@
                             <div x-show="open" class="bg-gray-700">
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="requestroute.jsp"
-                                    >Request Route</a
+                                    href="requestedroutes.jsp"
+                                    >Requested Route</a
                                 >
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
@@ -174,7 +190,7 @@
 
                             </div>
                         </div>
-                        
+
                         <div x-data="{ open: false }">
                             <button
                                 @click="open = !open"
@@ -203,7 +219,7 @@
                                         ></path>
                                     </svg>
 
-                                    <span class="mx-4 font-medium">Journey</span>
+                                    <span class="mx-4 font-medium">Companies</span>
                                 </span>
 
                                 <span>
@@ -237,18 +253,19 @@
                             <div x-show="open" class="bg-gray-700">
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="addjourney.jsp"
-                                    >Add Journey</a
-                                >
+                                    href="allcompanies.jsp"
+                                    >All Companies
+                                </a>
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="alljourneys.jsp"
-                                    >All Journey</a
-                                >
+                                    href="allcompanies.jsp"
+                                    >New Companies
+                                </a>
 
                             </div>
                         </div>
 
+                        
                         <div x-data="{ open: false }">
                             <button
                                 @click="open = !open"
@@ -270,7 +287,7 @@
                                         ></path>
                                     </svg>
 
-                                    <span class="mx-4 font-medium">Tickets</span>
+                                    <span class="mx-4 font-medium">Settings</span>
                                 </span>
 
                                 <span>
@@ -304,8 +321,8 @@
                             <div x-show="open" class="bg-gray-700">
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#"
-                                    >All Tickets</a
+                                    href="CompanyControl?action=logout"
+                                    >Logout</a
                                 >
                             </div>
                         </div>
@@ -313,15 +330,20 @@
 
                     <div class="absolute bottom-0 my-8">
                         <a
-                            class="flex items-center py-2 px-8 text-gray-100 hover:text-gray-200"
+                            class="flex items-center py-2 px-8 text-gray-300 mx-1 rounded-lg bg-gray-600 hover:text-gray-200"
                             href="#"
                             >
-                            <img
-                                class="h-6 w-6 rounded-full mr-3 object-cover"
-                                src="https://lh3.googleusercontent.com/a-/AOh14Gi0DgItGDTATTFV6lPiVrqtja6RZ_qrY91zg42o-g"
-                                alt="avatar"
-                                />
-                            <span>Company</span>
+                            <div class="flex justify-between items-center">
+                                <img
+                                    class="h-6 w-6 rounded-full mr-3 object-cover"
+                                    src="./assets/img/service/avatar.jpg"
+                                    alt="avatar"
+                                    />
+                                <div class="flex flex-col justify-between">
+                                    <div class="text-sm font-thin">${email}</div>
+                                    <div class="text-xs">${role}</div>
+                                </div>
+                            </div>
                         </a>
                     </div>
                 </div>
@@ -329,36 +351,64 @@
         </div>
 
 
-
         <!-- <div class="grid w-full min-h-screen place-items-center"> -->
-        <div class="overflow-x-auto bg-white w-5/6 h-screen mt-0 md:mt-0 md:col-span-2">
 
-            <h3 class="block text-base text-center font-medium text-gray-700 py-3"> All Routes</h3>
+
+        <div class="overflow-x-auto bg-white w-5/6 h-screen mt-0 md:mt-0 md:col-span-2 view-routes" id="admin-tab">
+            <%
+                if (request.getAttribute("message") != null) {
+                    String message = (String) request.getAttribute("message");
+            %>
+            <div class="container px-4 py-3" id="alertbox">
+                <div class="container bg-blue-500 flex items-center text-white text-sm font-bold px-4 py-3 relative"
+                     role="alert">
+                    <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path
+                        d="M12.432 0c1.34 0 2.01.912 2.01 1.957 0 1.305-1.164 2.512-2.679 2.512-1.269 0-2.009-.75-1.974-1.99C9.789 1.436 10.67 0 12.432 0zM8.309 20c-1.058 0-1.833-.652-1.093-3.524l1.214-5.092c.211-.814.246-1.141 0-1.141-.317 0-1.689.562-2.502 1.117l-.528-.88c2.572-2.186 5.531-3.467 6.801-3.467 1.057 0 1.233 1.273.705 3.23l-1.391 5.352c-.246.945-.141 1.271.106 1.271.317 0 1.357-.392 2.379-1.207l.6.814C12.098 19.02 9.365 20 8.309 20z" />
+                    </svg>
+                    <p><%=message%></p>
+
+                    <span class="absolute top-0 bottom-0 right-0 px-4 py-3 closealertbutton">
+                        <svg class="fill-current h-6 w-6 text-white" role="button" xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 20 20">
+                        <title>Close</title>
+                        <path
+                            d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+            <%}%>
+            <h3 class="block text-base text-center font-medium text-gray-700 py-3"> Requested Routes</h3>
             <table class="min-w-max w-full table-auto">
                 <thead>
                     <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                        <th class="py-3 px-6 text-left">Route Id</th>
+                        <th class="py-3 px-6 text-left">Company Name</th>
                         <th class="py-3 px-6 text-left">Source</th>
                         <th class="py-3 px-6 text-left">Destination</th>
+                        <th class="py-3 px-6 text-left">Requested On</th>
+                        <th class="py-3 px-6 text-left">Status</th>
                         <th class="py-3 px-6 text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-600 text-sm font-light">
                     <%
-                        for (Route route : routes) {
+                        for (CompanyRoute route : routes) {
                     %>
                     <tr class="border-b border-gray-200 hover:bg-gray-100">
-                        <td class="py-3 px-6 text-left whitespace-nowrap font-medium">#<%=route.getId()%></td>
-                        <td class="py-3 px-6 text-left text-blue-600 whitespace-nowrap font-medium"><%=route.getSource()%></td>
-                        <td class="py-3 px-6 text-left text-purple-600 whitespace-nowrap font-medium"><%=route.getDestination()%></td>
+                        <td class="py-3 px-6 text-left whitespace-nowrap font-medium">#<%=route.getCompany().getName()%></td>
+                        <td class="py-3 px-6 text-left text-blue-600 whitespace-nowrap font-medium"><%=route.getRoute().getSource()%></td>
+                        <td class="py-3 px-6 text-left text-purple-600 whitespace-nowrap font-medium"><%=route.getRoute().getDestination()%></td>
+                        <td class="py-3 px-6 text-left text-blue-600 whitespace-nowrap font-medium"><%=route.getRegisteredDate()%></td>
+                        <td class="py-3 px-6 text-left bg-red-200 text-red-600 whitespace-nowrap font-medium"><%=route.getRouteStatus()%></td>
                         <td class="py-3 px-6 text-center">
                             <div class="flex item-center justify-center">
-                                
-                                <a href="RoutesControl?id=<%=route.getId()%>action=request" class="focus:outline-none text-blue-600 text-sm py-1.5 px-4 rounded-md border border-blue-600 hover:bg-blue-600 hover:text-white flex items-center">
+
+                                <a href="RoutesControl?id=<%=route.getId()%>&action=approve" class="focus:outline-none text-blue-600 text-sm py-1.5 px-4 rounded-md border border-blue-600 hover:bg-blue-600 hover:text-white flex items-center">
                                     <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
                                     </svg>
-                                    Request
+                                    Approve
                                 </a>
 
                             </div>
@@ -368,10 +418,31 @@
                 </tbody>
             </table>
         </div>
-        <!-- </div> -->
 
+        <!-- </div> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"
+                integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous">
+        </script>
+
+
+        <script>
+            function openMenu(evt, MenuName) {
+                var i, x, tablinks;
+                x = document.getElementsByClassName("admin-tab");
+                for (i = 0; i < x.length; i++) {
+                    x[i].style.display = "none";
+                }
+                document.getElementById(MenuName).style.display = "block";
+                evt.currentTarget.className += " w3-grey";
+            }
+            $(".closealertbutton").click(function (e) {
+
+                pid = $(this).parent().parent().hide(500)
+                console.log(pid)
+            })
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+        </script>
     </body>
 </html>
-
-
-

@@ -4,6 +4,8 @@
     Author     : Philip
 --%>
 
+<%@page import="model.AdminAccount"%>
+<%@page import="model.Account"%>
 <%@page import="model.Route"%>
 
 
@@ -22,6 +24,22 @@
     </head>
     <body class="h-screen overflow-hidden flex items-center justify-start" style="background: #edf2f7">
         <%
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+
+            if (session.getAttribute("user") == null) {
+                session.setAttribute("trigger", "requestroute");
+                response.sendRedirect("login.jsp");
+            } else {
+                AdminAccount account = (AdminAccount) session.getAttribute("user");
+                if (account.getAccountRole().toString().equals("SUPER_ADMIN") || account.getAccountRole().toString().equals("ADMIN")) {
+                    request.setAttribute("email", account.getEmail());
+                    request.setAttribute("role", account.getAccountRole());
+                } else {
+                    request.setAttribute("message", "you do not have access to this route");
+                    request.getRequestDispatcher("adminlogin.jsp").forward(request, response);
+                }
+            }
+
             GeneralDao<Company> companyDao = new GeneralDao<>();
             GeneralDao<Route> routeDao = new GeneralDao<>();
             List<Company> companylist = companyDao.findAll(new Company());
@@ -29,7 +47,7 @@
 
         %>
         <script
-            src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+            src="./assets/alpine.js"
             defer
         ></script>
 
@@ -96,7 +114,12 @@
                             <div x-show="open" class="bg-gray-700">
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#"
+                                    href="addaccount.jsp"  onclick="openMenu(event, 'view-routes')"
+                                    >Add account</a
+                                >
+                                <a
+                                    class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
+                                    href="accountspercompany.jsp"
                                     >Manage Accounts</a
                                 >
                             </div>
@@ -130,7 +153,7 @@
                                         ></path>
                                     </svg>
 
-                                    <span class="mx-4 font-medium">Journeys</span>
+                                    <span class="mx-4 font-medium">Routes</span>
                                 </span>
 
                                 <span>
@@ -164,14 +187,92 @@
                             <div x-show="open" class="bg-gray-700">
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#">Add Journey
-                                </a
+                                    href="requestedroutes.jsp"
+                                    >Requested Route</a
+                                >
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#">All Journey
-                                </a
+                                    href="routes.jsp"
+                                    >All Routes</a
+                                >
+
                             </div>
                         </div>
+
+                        <div x-data="{ open: false }">
+                            <button
+                                @click="open = !open"
+                                class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none"
+                                >
+                                <span class="flex items-center">
+                                    <svg
+                                        class="h-5 w-5"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                    <path
+                                        d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        ></path>
+                                    <path
+                                        d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        ></path>
+                                    </svg>
+
+                                    <span class="mx-4 font-medium">Companies</span>
+                                </span>
+
+                                <span>
+                                    <svg
+                                        class="h-4 w-4"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                    <path
+                                        x-show="! open"
+                                        d="M9 5L16 12L9 19"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        style="display: none"
+                                        ></path>
+                                    <path
+                                        x-show="open"
+                                        d="M19 9L12 16L5 9"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        ></path>
+                                    </svg>
+                                </span>
+                            </button>
+
+                            <div x-show="open" class="bg-gray-700">
+                                <a
+                                    class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
+                                    href="allcompanies.jsp"
+                                    >All Companies
+                                </a>
+                                <a
+                                    class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
+                                    href="allcompanies.jsp"
+                                    >New Companies
+                                </a>
+
+                            </div>
+                        </div>
+
 
                         <div x-data="{ open: false }">
                             <button
@@ -194,7 +295,7 @@
                                         ></path>
                                     </svg>
 
-                                    <span class="mx-4 font-medium">Tickets</span>
+                                    <span class="mx-4 font-medium">Settings</span>
                                 </span>
 
                                 <span>
@@ -228,13 +329,8 @@
                             <div x-show="open" class="bg-gray-700">
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#"
-                                    >All Tickets</a
-                                >
-                                <a
-                                    class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#"
-                                    >Create Ticket</a
+                                    href="CompanyControl?action=logout"
+                                    >Logout</a
                                 >
                             </div>
                         </div>
@@ -242,15 +338,20 @@
 
                     <div class="absolute bottom-0 my-8">
                         <a
-                            class="flex items-center py-2 px-8 text-gray-100 hover:text-gray-200"
+                            class="flex items-center py-2 px-8 text-gray-300 mx-1 rounded-lg bg-gray-600 hover:text-gray-200"
                             href="#"
                             >
-                            <img
-                                class="h-6 w-6 rounded-full mr-3 object-cover"
-                                src="https://lh3.googleusercontent.com/a-/AOh14Gi0DgItGDTATTFV6lPiVrqtja6RZ_qrY91zg42o-g"
-                                alt="avatar"
-                                />
-                            <span>Khatabwedaa</span>
+                            <div class="flex justify-between items-center">
+                                <img
+                                    class="h-6 w-6 rounded-full mr-3 object-cover"
+                                    src="./assets/img/service/avatar.jpg"
+                                    alt="avatar"
+                                    />
+                                <div class="flex flex-col justify-between">
+                                    <div class="text-sm font-thin">${email}</div>
+                                    <div class="text-xs">${role}</div>
+                                </div>
+                            </div>
                         </a>
                     </div>
                 </div>
@@ -288,7 +389,7 @@
             <form action="RoutesControl" method="POST">
                 <h3 class="block text-base text-center font-medium text-gray-700"> Add Route</h3>
                 <div class="flex flex-col items-center shadow overflow-hidden sm:rounded-md">
-                    <div class="px-4 py-5  sm:p-6">
+                    <div class="px-4 py-2  sm:p-6">
                         <div class="grid grid-cols-6 gap-6">
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="source" class="block text-sm font-medium text-gray-700">First name</label>
@@ -298,6 +399,13 @@
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="destination" class="block text-sm font-medium text-gray-700">Last name</label>
                                 <input type="text" name="destination" id="destination" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+                            <div class="col-span-6 sm:col-span-6">
+                                <label for="status" class="block text-sm font-medium text-gray-700">Journey Status</label>
+                                <select id="status" name="status" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <option value="ACTIVE">Active</option>
+                                    <option value="INACTIVE">Inactive</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -316,6 +424,7 @@
                         <th class="py-3 px-6 text-left">Route Id</th>
                         <th class="py-3 px-6 text-left">Source</th>
                         <th class="py-3 px-6 text-left">Destination</th>
+                        <th class="py-3 px-6 text-left">Status</th>
                         <th class="py-3 px-6 text-center">Actions</th>
                     </tr>
                 </thead>
@@ -327,6 +436,15 @@
                         <td class="py-3 px-6 text-left whitespace-nowrap font-medium">#<%=route.getId()%></td>
                         <td class="py-3 px-6 text-left text-blue-600 whitespace-nowrap font-medium"><%=route.getSource()%></td>
                         <td class="py-3 px-6 text-left text-purple-600 whitespace-nowrap font-medium"><%=route.getDestination()%></td>
+                        <td>
+                            <%
+                                if (route.getStatus().toString().equals("ACTIVE")) {
+                            %>
+                            <span class="mx-auto bg-green-200 text-yellow-800 py-1 px-3 rounded-full text-xs"><%=route.getStatus()%></span>
+                            <%} else {%>
+                            <span class="mx-auto bg-red-200 text-red-800 py-1 px-3 rounded-full text-xs"><%=route.getStatus()%></span>
+                            <%}%>
+                        </td>
                         <td class="py-3 px-6 text-center">
                             <div class="flex item-center justify-center">
                                 <a href="updateroute.jsp?id=<%=route.getId()%>">
@@ -335,11 +453,6 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                         </svg>
                                     </div></a>
-                                <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
-                                </div>
                             </div>
                         </td>
                     </tr>
@@ -350,31 +463,31 @@
 
         <!-- </div> -->
         <script src="assets/js/vendor/jquery-1.12.4.min.js"
-                
-        </script>
-        <script src="./assets/js/bootstrap.min.js"></script>
+
+    </script>
+    <script src="./assets/js/bootstrap.min.js"></script>
 
 
-        <script>
-            function openMenu(evt, MenuName) {
-                var i, x, tablinks;
-                x = document.getElementsByClassName("admin-tab");
-                for (i = 0; i < x.length; i++) {
-                    x[i].style.display = "none";
-                }
-                document.getElementById(MenuName).style.display = "block";
-                evt.currentTarget.className += " w3-grey";
-            }
-            $(".closealertbutton").click(function (e) {
+    <script>
+                                    function openMenu(evt, MenuName) {
+                                        var i, x, tablinks;
+                                        x = document.getElementsByClassName("admin-tab");
+                                        for (i = 0; i < x.length; i++) {
+                                            x[i].style.display = "none";
+                                        }
+                                        document.getElementById(MenuName).style.display = "block";
+                                        evt.currentTarget.className += " w3-grey";
+                                    }
+                                    $(".closealertbutton").click(function (e) {
 
-                pid = $(this).parent().parent().hide(500)
-                console.log(pid)
-            })
-            if (window.history.replaceState) {
-                window.history.replaceState(null, null, window.location.href);
-            }
-        </script>
-    </body>
+                                        pid = $(this).parent().parent().hide(500)
+                                        console.log(pid)
+                                    })
+                                    if (window.history.replaceState) {
+                                        window.history.replaceState(null, null, window.location.href);
+                                    }
+    </script>
+</body>
 </html>
 
 

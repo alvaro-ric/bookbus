@@ -5,7 +5,11 @@
  */
 package controller;
 
+import dao.GeneralDao;
 import dao.RouteDao;
+import model.AccountStatus;
+import model.AdminAccount;
+import model.Role;
 
 /**
  *
@@ -14,10 +18,13 @@ import dao.RouteDao;
 public class main {
     public static void main(String[] args) {
 //        SessionFactory sf=DBUtil.getSessionFactory(); 
-       RouteDao dao = new RouteDao();
-       boolean stat = dao.checkRouteRequest(2, 0);
-
-        System.out.println("status : "+ stat);
+       AdminAccount admin = new AdminAccount();
+       admin.setAccountRole(Role.SUPER_ADMIN);
+       admin.setEmail("super@gmail.com");
+       admin.setAccountStatus(AccountStatus.APPROVED);
+       admin.setPassword("super@pass");
+       GeneralDao<AdminAccount> generalDao = new GeneralDao<>();
+       generalDao.create(admin);
 
     }
 }

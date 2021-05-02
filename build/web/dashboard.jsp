@@ -4,6 +4,7 @@
     Author     : Philip
 --%>
 
+<%@page import="model.ManagerAccount"%>
 <%@page import="model.Account"%>
 <%@page import="java.util.List"%>
 <%@page import="dao.GeneralDao"%>
@@ -24,16 +25,21 @@
             if (session.getAttribute("user") == null) {
                 response.sendRedirect("login.jsp?trigger=dashboard");
             } else {
-                Account account = (Account) session.getAttribute("user");
-                request.setAttribute("email", account.getEmail());
-                request.setAttribute("role", account.getAccountRole());
+                ManagerAccount account = null;
+                try {
+                    account = (ManagerAccount) session.getAttribute("user");
+                    request.setAttribute("email", account.getEmail());
+                    request.setAttribute("role", account.getAccountRole());
+                } catch (ClassCastException e) {
+                    response.sendRedirect("login.jsp?trigger=dashboard");
+                }
 
             }
 
             //            request.setAttribute("genderlist", ds.getGenderList());
         %>
         <script
-            src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+            src="./assets/alpine.js"
             defer
         ></script>
 
@@ -100,12 +106,12 @@
                             <div x-show="open" class="bg-gray-700">
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#"  onclick="openMenu(event, 'view-routes')"
+                                    href="addaccount.jsp"  onclick="openMenu(event, 'view-routes')"
                                     >Add account</a
                                 >
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#"
+                                    href="accountspercompany.jsp"
                                     >Manage Accounts</a
                                 >
                             </div>
@@ -178,7 +184,7 @@
                                 >
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="routes.jsp"
+                                    href="routespercompany.jsp"
                                     >All Routes</a
                                 >
 
@@ -252,7 +258,7 @@
                                 >
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="alljourneys.jsp"
+                                    href="journeyspercompany.jsp"
                                     >All Journey</a
                                 >
 
@@ -314,8 +320,68 @@
                             <div x-show="open" class="bg-gray-700">
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#"
+                                    href="ticketspercompany.jsp"
                                     >All Tickets</a
+                                >
+                            </div>
+                        </div>
+                        <div x-data="{ open: false }">
+                            <button
+                                @click="open = !open"
+                                class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none"
+                                >
+                                <span class="flex items-center">
+                                    <svg
+                                        class="h-5 w-5"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                    <path
+                                        d="M15 5V7M15 11V13M15 17V19M5 5C3.89543 5 3 5.89543 3 7V10C4.10457 10 5 10.8954 5 12C5 13.1046 4.10457 14 3 14V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V14C19.8954 14 19 13.1046 19 12C19 10.8954 19.8954 10 21 10V7C21 5.89543 20.1046 5 19 5H5Z"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        ></path>
+                                    </svg>
+
+                                    <span class="mx-4 font-medium">Settings</span>
+                                </span>
+
+                                <span>
+                                    <svg
+                                        class="h-4 w-4"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                    <path
+                                        x-show="! open"
+                                        d="M9 5L16 12L9 19"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        style="display: none"
+                                        ></path>
+                                    <path
+                                        x-show="open"
+                                        d="M19 9L12 16L5 9"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        ></path>
+                                    </svg>
+                                </span>
+                            </button>
+
+                            <div x-show="open" class="bg-gray-700">
+                                <a
+                                    class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
+                                    href="CompanyControl?action=logout"
+                                    >Logout</a
                                 >
                             </div>
                         </div>
@@ -329,7 +395,7 @@
                             <div class="flex justify-between items-center">
                                 <img
                                     class="h-6 w-6 rounded-full mr-3 object-cover"
-                                    src="https://lh3.googleusercontent.com/a-/AOh14Gi0DgItGDTATTFV6lPiVrqtja6RZ_qrY91zg42o-g"
+                                    src="./assets/img/service/avatar.jpg"
                                     alt="avatar"
                                     />
                                 <div class="flex flex-col justify-between">
@@ -345,69 +411,7 @@
 
 
         <!-- <div class="grid w-full min-h-screen place-items-center"> -->
-        <div class="overflow-x-auto bg-white w-5/6 h-screen mt-0 md:mt-0 md:col-span-2">
-            <form action="#" method="POST">
-                <h3 class="block text-base text-center font-medium text-gray-700"> Add Route</h3>
-                <div class="flex flex-col items-center shadow overflow-hidden sm:rounded-md">
-                    <div class="px-4 py-5  sm:p-6">
-                        <div class="grid grid-cols-6 gap-6">
-                            <div class="col-span-6 sm:col-span-3">
-                                <label for="first_name" class="block text-sm font-medium text-gray-700">First name</label>
-                                <input type="text" name="first_name" id="first_name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            </div>
 
-                            <div class="col-span-6 sm:col-span-3">
-                                <label for="last_name" class="block text-sm font-medium text-gray-700">Last name</label>
-                                <input type="text" name="last_name" id="last_name" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Save
-                        </button>
-                    </div>
-                </div>
-            </form>
-            <h3 class="block text-base text-center font-medium text-gray-700 py-3"> All Routes</h3>
-            <table class="min-w-max w-full table-auto">
-                <thead>
-                    <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                        <th class="py-3 px-6 text-left">Route Id</th>
-                        <th class="py-3 px-6 text-left">Source</th>
-                        <th class="py-3 px-6 text-left">Destination</th>
-                        <th class="py-3 px-6 text-center">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="text-gray-600 text-sm font-light">
-                    <tr class="border-b border-gray-200 hover:bg-gray-100">
-                        <td class="py-3 px-6 text-left whitespace-nowrap font-medium">#1</td>
-                        <td class="py-3 px-6 text-left text-blue-600 whitespace-nowrap font-medium">KIGALI</td>
-                        <td class="py-3 px-6 text-left text-purple-600 whitespace-nowrap font-medium">HUYE</td>
-                        <td class="py-3 px-6 text-center">
-                            <div class="flex item-center justify-center">
-                                <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                </div>
-                                <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                    </svg>
-                                </div>
-                                <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
         <!-- </div> -->
         <script>
             function openMenu(evt, MenuName) {

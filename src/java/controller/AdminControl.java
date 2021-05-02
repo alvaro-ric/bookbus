@@ -46,11 +46,20 @@ public class AdminControl extends HttpServlet {
                 AdminAccount account = accountDao.getAccount(email, password);
                 if (account == null) {
                     request.setAttribute("message", "username or password is invalid!!");
+                    dispatcher = request.getRequestDispatcher("adminlogin.jsp");
+                    dispatcher.forward(request, response);
+                } else if (account.getAccountStatus().toString().equals("CREATED")) {
+                    request.setAttribute("message", "your account has not been approved yet");
                     dispatcher = request.getRequestDispatcher("login.jsp");
                     dispatcher.forward(request, response);
-                } else {
+                } else if (account.getAccountStatus().toString().equals("SUSPENDED")) {
+                    request.setAttribute("message", "your account has been suspended");
+                    dispatcher = request.getRequestDispatcher("login.jsp");
+                    dispatcher.forward(request, response);
+                }
+                else {
                     request.getSession().setAttribute("user", account);
-                    response.sendRedirect("admindash.jsp");
+                    response.sendRedirect("admin.jsp");
                 }
                 break;
             case "logout":

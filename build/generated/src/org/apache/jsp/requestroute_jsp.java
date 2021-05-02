@@ -3,6 +3,7 @@ package org.apache.jsp;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import model.Account;
 import model.Route;
 import java.util.List;
 import dao.GeneralDao;
@@ -52,6 +53,7 @@ public final class requestroute_jsp extends org.apache.jasper.runtime.HttpJspBas
       out.write("\n");
       out.write("\n");
       out.write("\n");
+      out.write("\n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html lang=\"en\">\n");
       out.write("    <head>\n");
@@ -63,6 +65,17 @@ public final class requestroute_jsp extends org.apache.jasper.runtime.HttpJspBas
       out.write("    <body class=\"h-screen overflow-hidden flex items-center justify-start\" style=\"background: #edf2f7\">\n");
       out.write("        ");
 
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+
+            if (session.getAttribute("user") == null) {
+                session.setAttribute("trigger", "requestroute");
+                response.sendRedirect("login.jsp");
+            } else {
+                Account account = (Account) session.getAttribute("user");
+                request.setAttribute("email", account.getEmail());
+                request.setAttribute("role", account.getAccountRole());
+            }
+            //            request.setAttribute("genderlist", ds.getGenderList());
             GeneralDao<Route> routeDao = new GeneralDao<>();
             List<Route> routes = routeDao.findAll(new Route());
         
@@ -208,12 +221,12 @@ public final class requestroute_jsp extends org.apache.jasper.runtime.HttpJspBas
       out.write("                            <div x-show=\"open\" class=\"bg-gray-700\">\n");
       out.write("                                <a\n");
       out.write("                                    class=\"py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white\"\n");
-      out.write("                                    href=\"routes.jsp\"\n");
+      out.write("                                    href=\"requestroute.jsp\"\n");
       out.write("                                    >Request Route</a\n");
       out.write("                                >\n");
       out.write("                                <a\n");
       out.write("                                    class=\"py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white\"\n");
-      out.write("                                    href=\"routes.jsp\"\n");
+      out.write("                                    href=\"routespercompany.jsp\"\n");
       out.write("                                    >All Routes</a\n");
       out.write("                                >\n");
       out.write("\n");
@@ -282,12 +295,12 @@ public final class requestroute_jsp extends org.apache.jasper.runtime.HttpJspBas
       out.write("                            <div x-show=\"open\" class=\"bg-gray-700\">\n");
       out.write("                                <a\n");
       out.write("                                    class=\"py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white\"\n");
-      out.write("                                    href=\"routes.jsp\"\n");
+      out.write("                                    href=\"addjourney.jsp\"\n");
       out.write("                                    >Add Journey</a\n");
       out.write("                                >\n");
       out.write("                                <a\n");
       out.write("                                    class=\"py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white\"\n");
-      out.write("                                    href=\"routes.jsp\"\n");
+      out.write("                                    href=\"alljourneys.jsp\"\n");
       out.write("                                    >All Journey</a\n");
       out.write("                                >\n");
       out.write("\n");
@@ -358,15 +371,24 @@ public final class requestroute_jsp extends org.apache.jasper.runtime.HttpJspBas
       out.write("\n");
       out.write("                    <div class=\"absolute bottom-0 my-8\">\n");
       out.write("                        <a\n");
-      out.write("                            class=\"flex items-center py-2 px-8 text-gray-100 hover:text-gray-200\"\n");
+      out.write("                            class=\"flex items-center py-2 px-8 text-gray-300 mx-1 rounded-lg bg-gray-600 hover:text-gray-200\"\n");
       out.write("                            href=\"#\"\n");
       out.write("                            >\n");
-      out.write("                            <img\n");
-      out.write("                                class=\"h-6 w-6 rounded-full mr-3 object-cover\"\n");
-      out.write("                                src=\"https://lh3.googleusercontent.com/a-/AOh14Gi0DgItGDTATTFV6lPiVrqtja6RZ_qrY91zg42o-g\"\n");
-      out.write("                                alt=\"avatar\"\n");
-      out.write("                                />\n");
-      out.write("                            <span>Company</span>\n");
+      out.write("                            <div class=\"flex justify-between items-center\">\n");
+      out.write("                                <img\n");
+      out.write("                                    class=\"h-6 w-6 rounded-full mr-3 object-cover\"\n");
+      out.write("                                    src=\"https://lh3.googleusercontent.com/a-/AOh14Gi0DgItGDTATTFV6lPiVrqtja6RZ_qrY91zg42o-g\"\n");
+      out.write("                                    alt=\"avatar\"\n");
+      out.write("                                    />\n");
+      out.write("                                <div class=\"flex flex-col justify-between\">\n");
+      out.write("                                    <div class=\"text-sm font-thin\">");
+      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${email}", java.lang.String.class, (PageContext)_jspx_page_context, null));
+      out.write("</div>\n");
+      out.write("                                    <div class=\"text-xs\">");
+      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${role}", java.lang.String.class, (PageContext)_jspx_page_context, null));
+      out.write("</div>\n");
+      out.write("                                </div>\n");
+      out.write("                            </div>\n");
       out.write("                        </a>\n");
       out.write("                    </div>\n");
       out.write("                </div>\n");
@@ -374,8 +396,39 @@ public final class requestroute_jsp extends org.apache.jasper.runtime.HttpJspBas
       out.write("        </div>\n");
       out.write("\n");
       out.write("\n");
+      out.write("\n");
       out.write("        <!-- <div class=\"grid w-full min-h-screen place-items-center\"> -->\n");
       out.write("        <div class=\"overflow-x-auto bg-white w-5/6 h-screen mt-0 md:mt-0 md:col-span-2\">\n");
+      out.write("\n");
+      out.write("            ");
+
+                if (request.getAttribute("message") != null) {
+                    String message = (String) request.getAttribute("message");
+            
+      out.write("\n");
+      out.write("            <div class=\"container px-1 py-1\" id=\"alertbox\">\n");
+      out.write("                <div class=\"container bg-blue-500 flex items-center text-white text-sm font-bold px-4 py-3 relative\"\n");
+      out.write("                     role=\"alert\">\n");
+      out.write("                    <svg class=\"fill-current w-4 h-4 mr-2\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\">\n");
+      out.write("                    <path\n");
+      out.write("                        d=\"M12.432 0c1.34 0 2.01.912 2.01 1.957 0 1.305-1.164 2.512-2.679 2.512-1.269 0-2.009-.75-1.974-1.99C9.789 1.436 10.67 0 12.432 0zM8.309 20c-1.058 0-1.833-.652-1.093-3.524l1.214-5.092c.211-.814.246-1.141 0-1.141-.317 0-1.689.562-2.502 1.117l-.528-.88c2.572-2.186 5.531-3.467 6.801-3.467 1.057 0 1.233 1.273.705 3.23l-1.391 5.352c-.246.945-.141 1.271.106 1.271.317 0 1.357-.392 2.379-1.207l.6.814C12.098 19.02 9.365 20 8.309 20z\" />\n");
+      out.write("                    </svg>\n");
+      out.write("                    <p class=\"text-sm text-white\">");
+      out.print(message);
+      out.write("</p>\n");
+      out.write("\n");
+      out.write("                    <span class=\"absolute top-0 bottom-0 right-0 px-4 py-3 closealertbutton\">\n");
+      out.write("                        <svg class=\"fill-current h-6 w-6 text-white\" role=\"button\" xmlns=\"http://www.w3.org/2000/svg\"\n");
+      out.write("                             viewBox=\"0 0 20 20\">\n");
+      out.write("                        <title>Close</title>\n");
+      out.write("                        <path\n");
+      out.write("                            d=\"M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z\" />\n");
+      out.write("                        </svg>\n");
+      out.write("                    </span>\n");
+      out.write("                </div>\n");
+      out.write("            </div>\n");
+      out.write("            ");
+}
       out.write("\n");
       out.write("            <h3 class=\"block text-base text-center font-medium text-gray-700 py-3\"> All Routes</h3>\n");
       out.write("            <table class=\"min-w-max w-full table-auto\">\n");
@@ -405,15 +458,15 @@ public final class requestroute_jsp extends org.apache.jasper.runtime.HttpJspBas
       out.write("</td>\n");
       out.write("                        <td class=\"py-3 px-6 text-center\">\n");
       out.write("                            <div class=\"flex item-center justify-center\">\n");
-      out.write("                                \n");
+      out.write("\n");
       out.write("                                <a href=\"RoutesControl?id=");
       out.print(route.getId());
-      out.write("action=request\" class=\"focus:outline-none text-blue-600 text-sm py-1.5 px-4 rounded-md border border-blue-600 hover:bg-blue-600 hover:text-white flex items-center\">\n");
+      out.write("&action=request\" class=\"focus:outline-none text-blue-600 text-sm py-1.5 px-4 rounded-md border border-blue-600 hover:bg-blue-600 hover:text-white flex items-center\">\n");
       out.write("                                    <svg class=\"w-4 h-4 mr-2\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">\n");
       out.write("                                    <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z\" />\n");
       out.write("                                    </svg>\n");
       out.write("                                    Request\n");
-      out.write("                                </button>\n");
+      out.write("                                </a>\n");
       out.write("\n");
       out.write("                            </div>\n");
       out.write("                        </td>\n");
@@ -425,7 +478,17 @@ public final class requestroute_jsp extends org.apache.jasper.runtime.HttpJspBas
       out.write("            </table>\n");
       out.write("        </div>\n");
       out.write("        <!-- </div> -->\n");
+      out.write("        <script src=\"./assets/js/vendor/jquery-1.12.4.min.js\"></script>\n");
+      out.write("        <script>\n");
+      out.write("            $(\".closealertbutton\").click(function (e) {\n");
       out.write("\n");
+      out.write("                pid = $(this).parent().parent().hide(500)\n");
+      out.write("                console.log(pid)\n");
+      out.write("            })\n");
+      out.write("            if (window.history.replaceState) {\n");
+      out.write("                window.history.replaceState(null, null, window.location.href);\n");
+      out.write("            }\n");
+      out.write("        </script>\n");
       out.write("    </body>\n");
       out.write("</html>\n");
       out.write("\n");

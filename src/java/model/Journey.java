@@ -5,10 +5,13 @@
  */
 package model;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 /**
  *
@@ -38,15 +42,15 @@ public class Journey {
     private double price;
     private int seats;
     private int taken;
-    
-    
-    private Date createdAt;
+    private Timestamp createdAt;
     @Temporal(TemporalType.DATE)
     private Date departureDate;
     @Temporal(TemporalType.TIME)
     private Date departureTime;
-    
+    @Enumerated(EnumType.STRING)
     private JourneyStatus journeyStatus;
+    @Version
+    private Integer version;
 
     public long getId() {
         return id;
@@ -112,13 +116,11 @@ public class Journey {
         this.taken = taken;
     }
 
-    
-
-    public Date getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -147,6 +149,15 @@ public class Journey {
     public void setJourneyStatus(JourneyStatus journeyStatus) {
         this.journeyStatus = journeyStatus;
     }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+    
     
     
 }

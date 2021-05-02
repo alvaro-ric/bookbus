@@ -154,6 +154,7 @@
                             <a href="#" class="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700">Forgot Password?</a>
                         </div>
 
+                        <input type="text" name="action" hidden="" value="login">
                         <button type="submit" class="w-full block bg-indigo-500 hover:bg-indigo-400 focus:bg-indigo-400 text-white font-semibold rounded-lg
                                 px-4 py-2 mt-6">Log In</button>
                     </form>
@@ -212,6 +213,7 @@
                                                 <input type="email" class="form-control"  placeholder="Enter email" required=""><br>
                                                 <textarea type="textarea" class="form-control"  placeholder="Message" required=""></textarea>
                                             </div>
+                                            <input type="text" name="action" hidden="" value="login">
                                             <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" type="submit">Send</button>
                                         </form>
                                     </aside>

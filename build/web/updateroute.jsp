@@ -105,13 +105,13 @@
                             <div x-show="open" class="bg-gray-700">
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#"  onclick="openMenu(event, 'view-routes')"
-                                    >Manage Routes</a
+                                    href="addaccount.jsp"  onclick="openMenu(event, 'view-routes')"
+                                    >Add account</a
                                 >
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#"
-                                    >Manage Administrators</a
+                                    href="accountspercompany.jsp"
+                                    >Manage Accounts</a
                                 >
                             </div>
                         </div>
@@ -144,7 +144,7 @@
                                         ></path>
                                     </svg>
 
-                                    <span class="mx-4 font-medium">Companies</span>
+                                    <span class="mx-4 font-medium">Routes</span>
                                 </span>
 
                                 <span>
@@ -176,17 +176,90 @@
                             </button>
 
                             <div x-show="open" class="bg-gray-700">
-                                 <%                      
-                                    for (Company company : companylist) {
-                                %>
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="CompanyControl?companyid=<%=company.getId()%>"
-                                    ><%=company.getName()%></a
+                                    href="requestroute.jsp"
+                                    >Request Route</a
                                 >
-                                <%}%>
+                                <a
+                                    class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
+                                    href="routespercompany.jsp"
+                                    >All Routes</a
+                                >
 
+                            </div>
+                        </div>
 
+                        <div x-data="{ open: false }">
+                            <button
+                                @click="open = !open"
+                                class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none"
+                                >
+                                <span class="flex items-center">
+                                    <svg
+                                        class="h-5 w-5"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                    <path
+                                        d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        ></path>
+                                    <path
+                                        d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        ></path>
+                                    </svg>
+
+                                    <span class="mx-4 font-medium">Journey</span>
+                                </span>
+
+                                <span>
+                                    <svg
+                                        class="h-4 w-4"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                    <path
+                                        x-show="! open"
+                                        d="M9 5L16 12L9 19"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        style="display: none"
+                                        ></path>
+                                    <path
+                                        x-show="open"
+                                        d="M19 9L12 16L5 9"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        ></path>
+                                    </svg>
+                                </span>
+                            </button>
+
+                            <div x-show="open" class="bg-gray-700">
+                                <a
+                                    class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
+                                    href="addjourney.jsp"
+                                    >Add Journey</a
+                                >
+                                <a
+                                    class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
+                                    href="journeyspercompany.jsp"
+                                    >All Journey</a
+                                >
 
                             </div>
                         </div>
@@ -246,13 +319,68 @@
                             <div x-show="open" class="bg-gray-700">
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#"
+                                    href="ticketspercompany.jsp"
                                     >All Tickets</a
                                 >
+                            </div>
+                        </div>
+                        <div x-data="{ open: false }">
+                            <button
+                                @click="open = !open"
+                                class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none"
+                                >
+                                <span class="flex items-center">
+                                    <svg
+                                        class="h-5 w-5"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                    <path
+                                        d="M15 5V7M15 11V13M15 17V19M5 5C3.89543 5 3 5.89543 3 7V10C4.10457 10 5 10.8954 5 12C5 13.1046 4.10457 14 3 14V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V14C19.8954 14 19 13.1046 19 12C19 10.8954 19.8954 10 21 10V7C21 5.89543 20.1046 5 19 5H5Z"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        ></path>
+                                    </svg>
+
+                                    <span class="mx-4 font-medium">Settings</span>
+                                </span>
+
+                                <span>
+                                    <svg
+                                        class="h-4 w-4"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                    <path
+                                        x-show="! open"
+                                        d="M9 5L16 12L9 19"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        style="display: none"
+                                        ></path>
+                                    <path
+                                        x-show="open"
+                                        d="M19 9L12 16L5 9"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        ></path>
+                                    </svg>
+                                </span>
+                            </button>
+
+                            <div x-show="open" class="bg-gray-700">
                                 <a
                                     class="py-2 px-16 block text-sm text-gray-100 hover:bg-blue-500 hover:text-white"
-                                    href="#"
-                                    >Create Ticket</a
+                                    href="CompanyControl?action=logout"
+                                    >Logout</a
                                 >
                             </div>
                         </div>
@@ -260,15 +388,20 @@
 
                     <div class="absolute bottom-0 my-8">
                         <a
-                            class="flex items-center py-2 px-8 text-gray-100 hover:text-gray-200"
+                            class="flex items-center py-2 px-8 text-gray-300 mx-1 rounded-lg bg-gray-600 hover:text-gray-200"
                             href="#"
                             >
-                            <img
-                                class="h-6 w-6 rounded-full mr-3 object-cover"
-                                src="https://lh3.googleusercontent.com/a-/AOh14Gi0DgItGDTATTFV6lPiVrqtja6RZ_qrY91zg42o-g"
-                                alt="avatar"
-                                />
-                            <span>Admin</span>
+                            <div class="flex justify-between items-center">
+                                <img
+                                    class="h-6 w-6 rounded-full mr-3 object-cover"
+                                    src="./assets/img/service/avatar.jpg"
+                                    alt="avatar"
+                                    />
+                                <div class="flex flex-col justify-between">
+                                    <div class="text-sm font-thin">${email}</div>
+                                    <div class="text-xs">${role}</div>
+                                </div>
+                            </div>
                         </a>
                     </div>
                 </div>
@@ -282,22 +415,26 @@
             <form action="RoutesControl" method="POST">
                 <h3 class="block text-base text-center font-medium text-gray-700"> Update Route</h3>
                 <div class="flex flex-col items-center shadow overflow-hidden sm:rounded-md">
-                    <div class="px-4 py-5 flex sm:p-6 gap-4 w-1/2">
-                            <div class="">
-                                <label for="id" class="block text-sm font-medium text-gray-700">id</label>
-                                <input type="number" name="id" id="id" readonly="true" value="<%=route.getId()%>" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            </div>
-
-                            <div class="">
-                                <label for="source" class="block text-sm font-medium text-gray-700">source</label>
+                    <div class="px-4 py-2  sm:p-6">
+                        <div class="grid grid-cols-6 gap-6">
+                            <input type="number" name="id" id="id" hidden="" value="<%=route.getId()%>">
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="source" class="block text-sm font-medium text-gray-700">First name</label>
                                 <input type="text" name="source" id="source" value="<%=route.getSource()%>" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             </div>
-                            
-                            <div class="">
-                                <label for="destination" class="block text-sm font-medium text-gray-700">destination</label>
+
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="destination" class="block text-sm font-medium text-gray-700">Last name</label>
                                 <input type="text" name="destination" id="destination" value="<%=route.getDestination()%>" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             </div>
-                        
+                            <div class="col-span-6 sm:col-span-6">
+                                <label for="status" class="block text-sm font-medium text-gray-700">Journey Status</label>
+                                <select id="status" name="status" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <option value="ACTIVE">Active</option>
+                                    <option value="INACTIVE">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <input type="text" name="action" hidden="" value="updateroute">
                     <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">

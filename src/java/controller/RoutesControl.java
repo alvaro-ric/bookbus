@@ -22,6 +22,7 @@ import model.CompanyRoute;
 import model.ManagerAccount;
 import model.Route;
 import model.RouteStatus;
+import model.Status;
 
 /**
  *
@@ -33,6 +34,7 @@ public class RoutesControl extends HttpServlet {
     GeneralDao<Route> routeDao = new GeneralDao<>();
     GeneralDao<CompanyRoute> CRDao = new GeneralDao<>();
     Route route;
+    CompanyRoute companyRoute;
     RequestDispatcher dispatcher;
 
     @Override
@@ -68,6 +70,26 @@ public class RoutesControl extends HttpServlet {
                     dispatcher = request.getRequestDispatcher("requestroute.jsp");
                     dispatcher.forward(request, response);
                 }
+                break;
+            case "approve":
+                companyRoute = CRDao.findOne(CompanyRoute.class, Long.parseLong(request.getParameter("id")));
+                companyRoute.setRouteStatus(RouteStatus.APPROVED);
+                CRDao.update(companyRoute);
+                request.setAttribute("message", "route request is approved successfully");
+                dispatcher = request.getRequestDispatcher("requestroute.jsp");
+                dispatcher.forward(request, response);
+                break;
+            case "suspend":
+                companyRoute = CRDao.findOne(CompanyRoute.class, Long.parseLong(request.getParameter("id")));
+                companyRoute.setRouteStatus(RouteStatus.SUSPENDED);
+                CRDao.update(companyRoute);
+                request.setAttribute("message", "route is successfully suspended");
+                dispatcher = request.getRequestDispatcher("requestroute.jsp");
+                dispatcher.forward(request, response);
+                break;
+
+            default:
+                System.out.println("no action specified");
 
         }
     }
@@ -82,6 +104,7 @@ public class RoutesControl extends HttpServlet {
                 route = new Route();
                 route.setSource(request.getParameter("source"));
                 route.setDestination(request.getParameter("destination"));
+                route.setStatus(Status.valueOf(request.getParameter("status")));
                 routeDao.create(route);
                 request.setAttribute("message", "route added successfully!!!");
                 dispatcher = request.getRequestDispatcher("routes.jsp");
@@ -91,6 +114,7 @@ public class RoutesControl extends HttpServlet {
                 route = routeDao.findOne(Route.class, Long.parseLong(request.getParameter("id")));
                 route.setSource(request.getParameter("source"));
                 route.setDestination(request.getParameter("destination"));
+                route.setStatus(Status.valueOf(request.getParameter("status")));
                 routeDao.update(route);
                 request.setAttribute("message", "route updated successfully!!!");
                 dispatcher = request.getRequestDispatcher("routes.jsp");

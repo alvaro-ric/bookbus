@@ -143,7 +143,7 @@ and open the template in the editor.
                             <select name="companySize" id="companySize" class="block w-full border-gray-300 rounded-lg mt-2 shadow-sm bg-gray-200 focus:outline-none focus:bg-gray-300 focus:shadow-inner" required >
                                 <option value="-1">How many cars?</option>
                                 <option value="1-10">1 - 10</option>
-                                <option value="11-50">1 - 50</option>
+                                <option value="11-50">11 - 50</option>
                                 <option value="51-250">51 - 250</option>
                             </select>
                         </span>

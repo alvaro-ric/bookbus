@@ -5,6 +5,8 @@
  */
 package dao;
 
+import java.util.List;
+import model.ManagerAccount;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -31,5 +33,21 @@ public class AccountDao<O> {
         O account = (O) query.uniqueResult();
         session.close();
         return account;
+    }
+    
+    public List<ManagerAccount> getCompanyAccounts(long id) {
+        session = sf.openSession();
+        Query query = session.createQuery("FROM ManagerAccount where company_id='"+id+"'" );
+        List<ManagerAccount> companyAccounts = (List<ManagerAccount>) query.list();
+        session.close();
+        return companyAccounts;
+    }
+    
+    public List<O> getAccountStates(long id) {
+        session = sf.openSession();
+        Query query = session.createQuery("FROM AccountState where manageraccount_id='"+id+"'" );
+        List<O> companyAccounts = (List<O>) query.list();
+        session.close();
+        return companyAccounts;
     }
 }

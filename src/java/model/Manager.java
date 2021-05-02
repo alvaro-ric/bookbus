@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 /**
@@ -21,6 +22,26 @@ public class Manager extends Person {
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="managerseq")
     private long id;
+    @OneToOne(mappedBy = "manager")
+    private Company company;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+    
+    
     
     
     
