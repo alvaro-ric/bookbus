@@ -90,8 +90,7 @@
                                     <div class="main-menu f-right d-none d-lg-block">
                                         <nav>               
                                             <ul id="navigation">                                                                                                                                     
-                                                <li><a href="index.html">Home</a></li>
-                                                <li><a href="#">Book</a></li>
+                                                <li><a href="homepage.jsp">Home</a></li>
                                                 <li><a href="#">Company</a></li>
                                                 <li><a href="register.jsp">register</a></li>
                                             </ul>

@@ -66,6 +66,7 @@ public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    </head>\n");
       out.write("\n");
       out.write("    <body>\n");
+      out.write("\n");
       out.write("        <!-- Preloader Start -->\n");
       out.write("        <!-- <div id=\"preloader-active\">\n");
       out.write("            <div class=\"preloader d-flex align-items-center justify-content-center\">\n");
@@ -146,37 +147,37 @@ public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <section class=\"flex flex-col md:flex-row w-full h-2/5 items-center\">\n");
       out.write("            <div class=\"bg-white w-full md:max-w-md lg:max-w-full md:mx-auto md:mx-0 md:w-1/2 xl:w-1/3 h-200 px-6 lg:px-16 xl:px-12\n");
       out.write("                 flex items-center justify-center\">\n");
-      out.write("                \n");
+      out.write("\n");
       out.write("                <div class=\"w-full h-100\">\n");
       out.write("\n");
       out.write("                    ");
 
-                    if (request.getAttribute("message") != null) {
-                        String message = (String) request.getAttribute("message");
-                
+                        if (request.getAttribute("message") != null) {
+                            String message = (String) request.getAttribute("message");
+                    
       out.write("\n");
-      out.write("                <div class=\"container px-1 py-1\" id=\"alertbox\">\n");
-      out.write("                    <div class=\"container bg-red-500 flex items-center text-white text-sm font-bold px-4 py-3 relative\"\n");
-      out.write("                         role=\"alert\">\n");
-      out.write("                        <svg class=\"fill-current w-4 h-4 mr-2\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\">\n");
-      out.write("                        <path\n");
-      out.write("                            d=\"M12.432 0c1.34 0 2.01.912 2.01 1.957 0 1.305-1.164 2.512-2.679 2.512-1.269 0-2.009-.75-1.974-1.99C9.789 1.436 10.67 0 12.432 0zM8.309 20c-1.058 0-1.833-.652-1.093-3.524l1.214-5.092c.211-.814.246-1.141 0-1.141-.317 0-1.689.562-2.502 1.117l-.528-.88c2.572-2.186 5.531-3.467 6.801-3.467 1.057 0 1.233 1.273.705 3.23l-1.391 5.352c-.246.945-.141 1.271.106 1.271.317 0 1.357-.392 2.379-1.207l.6.814C12.098 19.02 9.365 20 8.309 20z\" />\n");
-      out.write("                        </svg>\n");
-      out.write("                        <p class=\"text-sm text-white\">");
+      out.write("                    <div class=\"container px-1 py-1\" id=\"alertbox\">\n");
+      out.write("                        <div class=\"container bg-red-500 flex items-center text-white text-sm font-bold px-4 py-3 relative\"\n");
+      out.write("                             role=\"alert\">\n");
+      out.write("                            <svg class=\"fill-current w-4 h-4 mr-2\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\">\n");
+      out.write("                            <path\n");
+      out.write("                                d=\"M12.432 0c1.34 0 2.01.912 2.01 1.957 0 1.305-1.164 2.512-2.679 2.512-1.269 0-2.009-.75-1.974-1.99C9.789 1.436 10.67 0 12.432 0zM8.309 20c-1.058 0-1.833-.652-1.093-3.524l1.214-5.092c.211-.814.246-1.141 0-1.141-.317 0-1.689.562-2.502 1.117l-.528-.88c2.572-2.186 5.531-3.467 6.801-3.467 1.057 0 1.233 1.273.705 3.23l-1.391 5.352c-.246.945-.141 1.271.106 1.271.317 0 1.357-.392 2.379-1.207l.6.814C12.098 19.02 9.365 20 8.309 20z\" />\n");
+      out.write("                            </svg>\n");
+      out.write("                            <p class=\"text-sm text-white\">");
       out.print(message);
       out.write("</p>\n");
       out.write("\n");
-      out.write("                        <span class=\"absolute top-0 bottom-0 right-0 px-4 py-3 closealertbutton\">\n");
-      out.write("                            <svg class=\"fill-current h-6 w-6 text-white\" role=\"button\" xmlns=\"http://www.w3.org/2000/svg\"\n");
-      out.write("                                 viewBox=\"0 0 20 20\">\n");
-      out.write("                            <title>Close</title>\n");
-      out.write("                            <path\n");
-      out.write("                                d=\"M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z\" />\n");
-      out.write("                            </svg>\n");
-      out.write("                        </span>\n");
+      out.write("                            <span class=\"absolute top-0 bottom-0 right-0 px-4 py-3 closealertbutton\">\n");
+      out.write("                                <svg class=\"fill-current h-6 w-6 text-white\" role=\"button\" xmlns=\"http://www.w3.org/2000/svg\"\n");
+      out.write("                                     viewBox=\"0 0 20 20\">\n");
+      out.write("                                <title>Close</title>\n");
+      out.write("                                <path\n");
+      out.write("                                    d=\"M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z\" />\n");
+      out.write("                                </svg>\n");
+      out.write("                            </span>\n");
+      out.write("                        </div>\n");
       out.write("                    </div>\n");
-      out.write("                </div>\n");
-      out.write("                ");
+      out.write("                    ");
 }
       out.write("\n");
       out.write("\n");
@@ -198,13 +199,14 @@ public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                            <a href=\"#\" class=\"text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700\">Forgot Password?</a>\n");
       out.write("                        </div>\n");
       out.write("\n");
+      out.write("                        <input type=\"text\" name=\"action\" hidden=\"\" value=\"login\">\n");
       out.write("                        <button type=\"submit\" class=\"w-full block bg-indigo-500 hover:bg-indigo-400 focus:bg-indigo-400 text-white font-semibold rounded-lg\n");
       out.write("                                px-4 py-2 mt-6\">Log In</button>\n");
       out.write("                    </form>\n");
       out.write("\n");
       out.write("                    <hr class=\"my-6 border-gray-300 w-full\">\n");
       out.write("\n");
-      out.write("                    <p class=\"mt-8\">Need an account? <a href=\"#\" class=\"text-blue-500 hover:text-blue-700 font-semibold\">Create an\n");
+      out.write("                    <p class=\"mt-8\">Need an account? <a href=\"register.jsp\" class=\"text-blue-500 hover:text-blue-700 font-semibold\">Create an\n");
       out.write("                            account</a></p>\n");
       out.write("\n");
       out.write("\n");
@@ -256,6 +258,7 @@ public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                                                <input type=\"email\" class=\"form-control\"  placeholder=\"Enter email\" required=\"\"><br>\n");
       out.write("                                                <textarea type=\"textarea\" class=\"form-control\"  placeholder=\"Message\" required=\"\"></textarea>\n");
       out.write("                                            </div>\n");
+      out.write("                                            <input type=\"text\" name=\"action\" hidden=\"\" value=\"login\">\n");
       out.write("                                            <button class=\"button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn\" type=\"submit\">Send</button>\n");
       out.write("                                        </form>\n");
       out.write("                                    </aside>\n");
@@ -304,14 +307,14 @@ public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <script src=\"./assets/js/main.js\"></script>\n");
       out.write("\n");
       out.write("        <script>\n");
-      out.write("            $(\".closealertbutton\").click(function (e) {\n");
+      out.write("                                    $(\".closealertbutton\").click(function (e) {\n");
       out.write("\n");
-      out.write("                pid = $(this).parent().parent().hide(500)\n");
-      out.write("                console.log(pid)\n");
-      out.write("            })\n");
-      out.write("            if (window.history.replaceState) {\n");
-      out.write("                window.history.replaceState(null, null, window.location.href);\n");
-      out.write("            }\n");
+      out.write("                                        pid = $(this).parent().parent().hide(500)\n");
+      out.write("                                        console.log(pid)\n");
+      out.write("                                    })\n");
+      out.write("                                    if (window.history.replaceState) {\n");
+      out.write("                                        window.history.replaceState(null, null, window.location.href);\n");
+      out.write("                                    }\n");
       out.write("        </script>\n");
       out.write("    </body>\n");
       out.write("</html>\n");

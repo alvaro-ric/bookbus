@@ -26,11 +26,10 @@
         <%
             response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 
-            if (session.getAttribute("user") == null) {
-                session.setAttribute("trigger", "requestroute");
-                response.sendRedirect("login.jsp");
+            if (session.getAttribute("admin") == null) {
+                response.sendRedirect("login.jsp?trigger=routes");
             } else {
-                AdminAccount account = (AdminAccount) session.getAttribute("user");
+                AdminAccount account = (AdminAccount) session.getAttribute("admin");
                 if (account.getAccountRole().toString().equals("SUPER_ADMIN") || account.getAccountRole().toString().equals("ADMIN")) {
                     request.setAttribute("email", account.getEmail());
                     request.setAttribute("role", account.getAccountRole());
@@ -392,16 +391,16 @@
                     <div class="px-4 py-2  sm:p-6">
                         <div class="grid grid-cols-6 gap-6">
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="source" class="block text-sm font-medium text-gray-700">First name</label>
+                                <label for="source" class="block text-sm font-medium text-gray-700">Source</label>
                                 <input type="text" name="source" id="source" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="destination" class="block text-sm font-medium text-gray-700">Last name</label>
+                                <label for="destination" class="block text-sm font-medium text-gray-700">Destination</label>
                                 <input type="text" name="destination" id="destination" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             </div>
                             <div class="col-span-6 sm:col-span-6">
-                                <label for="status" class="block text-sm font-medium text-gray-700">Journey Status</label>
+                                <label for="status" class="block text-sm font-medium text-gray-700">Route Status</label>
                                 <select id="status" name="status" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                     <option value="ACTIVE">Active</option>
                                     <option value="INACTIVE">Inactive</option>

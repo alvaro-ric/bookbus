@@ -25,6 +25,12 @@ public class Manager extends Person {
     @OneToOne(mappedBy = "manager")
     private Company company;
 
+    public Manager() {
+    }
+
+    
+    
+
     public long getId() {
         return id;
     }

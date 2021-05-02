@@ -123,8 +123,7 @@ public final class homepage_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                                    <div class=\"main-menu f-right d-none d-lg-block\">\n");
       out.write("                                        <nav>               \n");
       out.write("                                            <ul id=\"navigation\">                                                                                                                                     \n");
-      out.write("                                                <li><a href=\"index.html\">Home</a></li>\n");
-      out.write("                                                <li><a href=\"#\">Book</a></li>\n");
+      out.write("                                                <li><a href=\"homepage.jsp\">Home</a></li>\n");
       out.write("                                                <li><a href=\"#\">Company</a></li>\n");
       out.write("                                                <li><a href=\"register.jsp\">register</a></li>\n");
       out.write("                                            </ul>\n");
@@ -171,6 +170,7 @@ public final class homepage_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                                            <input type=\"text\" name=\"to\" placeholder=\"to\">\n");
       out.write("                                        </div>\n");
       out.write("\n");
+      out.write("                                        <input type=\"text\" name=\"action\" hidden=\"\" value=\"search\">\n");
       out.write("                                        <div class=\"inline-block mr-2 mt-2\">\n");
       out.write("                                            <button type=\"submit\" class=\"focus:outline-none text-white text-sm py-2.5 px-5 rounded-md bg-yellow-500 hover:bg-yellow-600 hover:shadow-lg\">Search</button>\n");
       out.write("                                        </div>\n");

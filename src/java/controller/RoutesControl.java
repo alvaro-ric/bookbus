@@ -76,7 +76,7 @@ public class RoutesControl extends HttpServlet {
                 companyRoute.setRouteStatus(RouteStatus.APPROVED);
                 CRDao.update(companyRoute);
                 request.setAttribute("message", "route request is approved successfully");
-                dispatcher = request.getRequestDispatcher("requestroute.jsp");
+                dispatcher = request.getRequestDispatcher("requestedroutes.jsp");
                 dispatcher.forward(request, response);
                 break;
             case "suspend":
@@ -84,7 +84,7 @@ public class RoutesControl extends HttpServlet {
                 companyRoute.setRouteStatus(RouteStatus.SUSPENDED);
                 CRDao.update(companyRoute);
                 request.setAttribute("message", "route is successfully suspended");
-                dispatcher = request.getRequestDispatcher("requestroute.jsp");
+                dispatcher = request.getRequestDispatcher("requestedroutes.jsp");
                 dispatcher.forward(request, response);
                 break;
 

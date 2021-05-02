@@ -35,8 +35,7 @@
 
             List<Journey> journeylist = null;
             if (session.getAttribute("user") == null) {
-                session.setAttribute("trigger", "journeyspercompany");
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("login.jsp?trigger=journeyspercompany");
             } else {
                 ManagerAccount account = (ManagerAccount) session.getAttribute("user");
                 request.setAttribute("email", account.getEmail());

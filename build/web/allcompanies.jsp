@@ -24,12 +24,12 @@
         <%
             response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 
-            if (session.getAttribute("user") == null) {
-                response.sendRedirect("adminlogin.jsp?trigger=admin");
+            if (session.getAttribute("admin") == null) {
+                response.sendRedirect("adminlogin.jsp?trigger=allcompanies");
             } else {
                 AdminAccount account = null;
                 try {
-                    account = (AdminAccount) session.getAttribute("user");
+                    account = (AdminAccount) session.getAttribute("admin");
                     if (account.getAccountRole().toString().equals("SUPER_ADMIN") || account.getAccountRole().toString().equals("ADMIN")) {
                         request.setAttribute("email", account.getEmail());
                         request.setAttribute("role", account.getAccountRole());

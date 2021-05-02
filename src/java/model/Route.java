@@ -36,6 +36,19 @@ public class Route {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    public Route() {
+    }
+
+    
+    
+    public Route(String source, String destination, Status status) {
+        this.source = source;
+        this.destination = destination;
+        this.status = status;
+    }
+    
+    
+
     public long getId() {
         return id;
     }

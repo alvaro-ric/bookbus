@@ -20,13 +20,13 @@ public class GeneralDao<O> {
     Session session=null;
     O obj;
 
-    public O create(O object) {
+    public String create(O object) {
         session = sf.openSession();
         session.beginTransaction();
         session.save(object);
         session.getTransaction().commit();
         session.close();
-        return object;
+        return "created";
     }
 
     public String delete(O object) {
@@ -35,7 +35,7 @@ public class GeneralDao<O> {
         session.update(object);
         session.getTransaction().commit();
         session.close();
-        return "success";
+        return "deleted";
     }
 
     public String update(O object) {
@@ -44,7 +44,7 @@ public class GeneralDao<O> {
         session.update(object);
         session.getTransaction().commit();
         session.close();
-        return "success";
+        return "updated";
     }
 
     public List<O> findAll(O object) {

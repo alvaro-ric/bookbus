@@ -90,8 +90,15 @@ public class CompanyControl extends HttpServlet {
                 break;
 
             case "logout":
-                request.getSession().removeAttribute("user");
-                response.sendRedirect("dashboard.jsp");
+                
+                if (session.getAttribute("user") == null) {
+                    request.getSession().removeAttribute("admin");
+                    response.sendRedirect("adminlogin.jsp");
+                } else {
+                    request.getSession().removeAttribute("user");
+                    response.sendRedirect("login.jsp");
+                }
+                
                 break;
 
             case "approve":
@@ -150,11 +157,11 @@ public class CompanyControl extends HttpServlet {
         AdminAccount account = adminaccDao.getAccount("super@gmail.com", "super@pass");
         SimpleDateFormat sdftime = new SimpleDateFormat("hh:mm");
         String action = request.getParameter("action");
-        
+
         java.util.Date date = new java.util.Date();
         Timestamp ts = new Timestamp(date.getTime());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        
+
         Company company;
         Manager manager;
         ManagerAccount managerAccount;
@@ -185,8 +192,6 @@ public class CompanyControl extends HttpServlet {
                 companyState.setDoneBy(account);
                 companyState.setUpdateOn(Timestamp.valueOf(formatter.format(ts)));
                 companyStateDao.create(companyState);
-                
-                
 
                 managerAccount.setManager(manager);
                 managerAccount.setCompany(company);
@@ -196,20 +201,20 @@ public class CompanyControl extends HttpServlet {
                 managerAccount.setAccountRole(Role.COMPANY);
 
                 accountDao.create(managerAccount);
-                
+
                 accountState = new AccountState();
                 accountState.setAccountStatus(AccountStatus.CREATED);
                 accountState.setDoneBy(manager);
                 accountState.setManagerAccount(managerAccount);
                 accountState.setUpdateOn(Timestamp.valueOf(formatter.format(ts)));
-                
+
                 AccountStateDao.create(accountState);
 
                 response.sendRedirect("login.jsp");
                 break;
             case "createaccount":
                 company = ((ManagerAccount) request.getSession().getAttribute("user")).getCompany();
-                
+
                 manager = new Manager();
                 managerAccount = new ManagerAccount();
                 manager.setFirstName(request.getParameter("firstname"));
@@ -225,13 +230,13 @@ public class CompanyControl extends HttpServlet {
                 managerAccount.setPassword(request.getParameter("password"));
                 managerAccount.setAccountRole(Role.COMPANY);
                 accountDao.create(managerAccount);
-                
+
                 accountState = new AccountState();
                 accountState.setAccountStatus(AccountStatus.CREATED);
                 accountState.setDoneBy(manager);
                 accountState.setManagerAccount(managerAccount);
                 accountState.setUpdateOn(Timestamp.valueOf(formatter.format(ts)));
-                
+
                 AccountStateDao.create(accountState);
                 response.sendRedirect("dashboard.jsp");
                 break;

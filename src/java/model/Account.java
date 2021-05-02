@@ -8,6 +8,7 @@ package model;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.MappedSuperclass;
 
 /**

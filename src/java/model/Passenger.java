@@ -26,6 +26,22 @@ public class Passenger extends Person {
     @OneToOne(mappedBy = "passenger")
     private Ticket ticket;
 
+//    public Passenger(String firstName, String lastName, String phoneNumber) {
+//        super(firstName, lastName, phoneNumber);
+//    }
+    public Passenger(){
+        
+    }
+    
+    
+    
+
+    
+    public Passenger(int id, String firstName, String lastName, String phoneNumber) {
+        this.id = id;
+    }
+    
+
     public int getId() {
         return id;
     }

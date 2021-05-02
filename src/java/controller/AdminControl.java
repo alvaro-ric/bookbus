@@ -58,7 +58,7 @@ public class AdminControl extends HttpServlet {
                     dispatcher.forward(request, response);
                 }
                 else {
-                    request.getSession().setAttribute("user", account);
+                    request.getSession().setAttribute("admin", account);
                     response.sendRedirect("admin.jsp");
                 }
                 break;

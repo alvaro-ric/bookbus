@@ -23,8 +23,7 @@
             response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 
             if (session.getAttribute("user") == null) {
-                session.setAttribute("trigger", "requestroute");
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("login.jsp?trigger=requestroutes");
             } else {
                 Account account = (Account) session.getAttribute("user");
                 request.setAttribute("email", account.getEmail());

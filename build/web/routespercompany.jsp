@@ -27,8 +27,7 @@
 
             List<CompanyRoute> routelist = null;
             if (session.getAttribute("user") == null) {
-                session.setAttribute("trigger", "requestroute");
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("login.jsp?trigger=routespercompany");
             } else {
                 ManagerAccount account = (ManagerAccount) session.getAttribute("user");
                 request.setAttribute("email", account.getEmail());

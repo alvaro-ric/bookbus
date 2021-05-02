@@ -3,53 +3,28 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/addaccount.jsp</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/login.jsp</file>
             <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/dao/GeneralDao.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/register.jsp</file>
+            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/myname.jsp</file>
             <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/model/Route.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/addjourney.jsp</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/routespercompany.jsp</file>
+            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/test/TestregisterTest.java</file>
             <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/model/Manager.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/dao/AccountDao.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/passenger.jsp</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/controller/AdminControl.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/confirmpayment.jsp</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/controller/JourneyControl.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/model/AccountStatus.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/controller/main.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/model/AdminAccount.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/dao/JourneyDao.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/accountdetails.jsp</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/adminlogin.jsp</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/accountspercompany.jsp</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/model/Journey.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/dashboard.jsp</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/updateroute.jsp</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/requestroute.jsp</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/admin.jsp</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/ticketpayment.jsp</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/model/Company.java</file>
             <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/controller/CompanyControl.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/dao/RouteDao.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/availablejourneys.jsp</file>
+            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/test/testing/Selenium.java</file>
             <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/model/CompanyStatus.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/requestedroutes.jsp</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/controller/RoutesControl.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/companydetails.jsp</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/model/Status.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/routes.jsp</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/ticketspercompany.jsp</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/model/RouteStatus.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/controller/PassengerControl.java</file>
+            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/hibernate.cfg.xml</file>
+            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/test/testing/DBSetupConfig.java</file>
+            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/dao/JourneyDao.java</file>
+            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/model/Person.java</file>
+            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/adminlogin.jsp</file>
+            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/test/testing/IntTest.java</file>
+            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/model/TicketStatus.java</file>
+            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/test/testing/TestData.java</file>
             <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/model/Passenger.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/allcompanies.jsp</file>
+            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/controller/PassengerControl.java</file>
             <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/model/Ticket.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/homepage.jsp</file>
+            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/updateroute.jsp</file>
+            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/dao/PassengerDao.java</file>
             <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/src/java/dao/TicketDao.java</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/journeys.jsp</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/journeyspercompany.jsp</file>
-            <file>file:/C:/Users/Philip/Documents/NetBeansProjects/BookBus/web/assets/css/style.css</file>
         </group>
     </open-files>
 </project-private>

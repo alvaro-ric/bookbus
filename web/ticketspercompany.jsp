@@ -26,8 +26,7 @@
 
             List<Ticket> ticketlist = null;
             if (session.getAttribute("user") == null) {
-                session.setAttribute("trigger", "journeyspercompany");
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("login.jsp?trigger=ticketspercompany");
             } else {
                 ManagerAccount account = null;
                 try {

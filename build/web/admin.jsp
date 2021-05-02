@@ -25,12 +25,12 @@
         <%
             response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 
-            if (session.getAttribute("user") == null) {
+            if (session.getAttribute("admin") == null) {
                 response.sendRedirect("adminlogin.jsp?trigger=admin");
             } else {
                 AdminAccount account = null;
                 try {
-                    account = (AdminAccount) session.getAttribute("user");
+                    account = (AdminAccount) session.getAttribute("admin");
                     if (account.getAccountRole().toString().equals("SUPER_ADMIN") || account.getAccountRole().toString().equals("ADMIN")) {
                         request.setAttribute("email", account.getEmail());
                         request.setAttribute("role", account.getAccountRole());
@@ -41,7 +41,7 @@
                         request.getRequestDispatcher("adminlogin.jsp").forward(request, response);
                     }
                 } catch (ClassCastException e) {
-                    response.sendRedirect("adminlogin.jsp?trigger=dashboard");
+                    response.sendRedirect("adminlogin.jsp?trigger=admin");
                 } catch (NullPointerException e) {
                     response.sendRedirect("adminlogin.jsp?trigger=admin");
                 }

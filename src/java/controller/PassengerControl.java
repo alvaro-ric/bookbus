@@ -74,7 +74,7 @@ public class PassengerControl extends HttpServlet {
         String action = request.getParameter("action");
         switch (action) {
             case "addpassenger":
-                Passenger passenger = new Passenger();
+                Passenger passenger = new Passenger(0, "null", "null", "null");
                 passenger.setFirstName(request.getParameter("firstname"));
                 passenger.setLastName(request.getParameter("lastname"));
                 passenger.setPhoneNumber(request.getParameter("phonenumber"));

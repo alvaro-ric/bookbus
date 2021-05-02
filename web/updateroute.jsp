@@ -24,7 +24,7 @@
             response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 
             if (session.getAttribute("user") == null) {
-                response.sendRedirect("login.jsp?trigger=dashboard");
+                response.sendRedirect("login.jsp?trigger=updateroutes");
             } else {
                 Account account = (Account) session.getAttribute("user");
                 request.setAttribute("email", account.getEmail());

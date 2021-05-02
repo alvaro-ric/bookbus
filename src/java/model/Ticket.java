@@ -34,6 +34,21 @@ public class Ticket {
     @ManyToOne
     private Company company;
 
+    public Ticket() {
+    }
+
+    public Ticket(Long id, Passenger passenger, Journey journey, double amount, Date BoughtOn, TicketStatus ticketStatus, Company company) {
+        this.id = id;
+        this.passenger = passenger;
+        this.journey = journey;
+        this.amount = amount;
+        this.BoughtOn = BoughtOn;
+        this.ticketStatus = ticketStatus;
+        this.company = company;
+    }
+    
+    
+
     public Long getId() {
         return id;
     }
